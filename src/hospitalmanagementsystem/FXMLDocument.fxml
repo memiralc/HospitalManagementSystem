@@ -1,14 +1,108 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import java.lang.String?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="200" prefWidth="320" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hospitalmanagementsystem.FXMLDocumentController">
-    <children>
-        <Button layoutX="126" layoutY="90" text="Click Me!" onAction="#handleButtonAction" fx:id="button" />
-        <Label layoutX="126" layoutY="120" minHeight="16" minWidth="69" fx:id="label" />
-    </children>
-</AnchorPane>
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="350.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hospitalmanagementsystem.FXMLDocumentController">
+   <children>
+      <AnchorPane fx:id="main_form" prefHeight="200.0" prefWidth="200.0">
+         <children>
+            <AnchorPane fx:id="login_form" layoutX="75.0" layoutY="75.0" prefHeight="550.4" prefWidth="350.4" styleClass="white-bg" stylesheets="@../Design/PageDesign.css" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <FontAwesomeIconView fill="#188ba7" glyphName="USER" layoutX="154.0" layoutY="80.0" size="5em" text="" />
+                  <Label layoutX="123.0" layoutY="95.0" text="Hesap Girişi" textFill="#188ba7">
+                     <font>
+                        <Font name="Tahoma" size="20.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="108.0" layoutY="121.0" text="Admin Kullanımı için giriş" />
+                  <TextField fx:id="login_username" layoutX="50.0" layoutY="152.0" prefHeight="30.0" prefWidth="250.0" promptText="Kullanıcı Adı" stylesheets="@../Design/PageDesign.css">
+                     <styleClass>
+                        <String fx:value="textfield-1" />
+                        <String fx:value="radius" />
+                        <String fx:value="white-bg" />
+                     </styleClass></TextField>
+                  <PasswordField fx:id="login_password" layoutX="50.0" layoutY="189.0" prefHeight="30.0" prefWidth="250.0" promptText="Şifre">
+                     <styleClass>
+                        <String fx:value="textfield-1" />
+                        <String fx:value="radius" />
+                        <String fx:value="white-bg" />
+                     </styleClass></PasswordField>
+                  <TextField fx:id="login_showPassword" layoutX="50.0" layoutY="189.0" prefHeight="30.0" prefWidth="250.0" promptText="Şifre" stylesheets="@../Design/PageDesign.css" visible="false">
+                     <styleClass>
+                        <String fx:value="textfield-1" />
+                        <String fx:value="white-bg" />
+                     </styleClass></TextField>
+                  <CheckBox fx:id="login_checkBox" layoutX="50.0" layoutY="228.0" mnemonicParsing="false" text="Şifreyi Göster" />
+                  <Button fx:id="login_loginBtn" layoutX="50.0" layoutY="265.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="250.0" stylesheets="@../Design/PageDesign.css" text="Giriş">
+                     <styleClass>
+                        <String fx:value="btn-1" />
+                        <String fx:value="radius" />
+                     </styleClass></Button>
+                  <FontAwesomeIconView fill="#188ba7" glyphName="HOSPITAL_ALT" layoutX="147.0" layoutY="433.0" size="6em" />
+                  <ComboBox fx:id="login_user" layoutX="100.0" layoutY="463.0" prefHeight="30.0" prefWidth="150.0" promptText="kullanıcı Seç" styleClass="white-bg" stylesheets="@../Design/PageDesign.css" />
+                  <Label layoutX="64.0" layoutY="515.0" text="Hesabınız yok mu?" />
+                  <Hyperlink fx:id="login_registerHere" layoutX="199.0" layoutY="512.0" onAction="#switchForm" text="Kayıt Ol" />
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="register_form" layoutX="10.0" layoutY="10.0" prefHeight="550.4" prefWidth="350.4" styleClass="white-bg" stylesheets="@../Design/PageDesign.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <FontAwesomeIconView fill="#188ba7" glyphName="USER_PLUS" layoutX="136.0" layoutY="84.0" size="5em" />
+                  <Label layoutX="116.0" layoutY="93.0" text="Hesap Kaydı" textFill="#188ba7">
+                     <font>
+                        <Font name="Tahoma" size="20.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="register_email" layoutX="50.0" layoutY="158.0" prefHeight="30.0" prefWidth="250.0" promptText="Mail " stylesheets="@../Design/PageDesign.css">
+                     <styleClass>
+                        <String fx:value="textfield-1" />
+                        <String fx:value="radius" />
+                        <String fx:value="white-bg" />
+                     </styleClass>
+                  </TextField>
+                  <TextField fx:id="register_username" layoutX="50.0" layoutY="199.0" prefHeight="30.0" prefWidth="250.0" promptText="Kullanıcı Adı" stylesheets="@../Design/PageDesign.css">
+                     <styleClass>
+                        <String fx:value="textfield-1" />
+                        <String fx:value="radius" />
+                        <String fx:value="white-bg" />
+                     </styleClass>
+                  </TextField>
+                  <PasswordField fx:id="register_password" layoutX="50.0" layoutY="236.0" prefHeight="30.0" prefWidth="250.0" promptText="Şifre">
+                     <styleClass>
+                        <String fx:value="textfield-1" />
+                        <String fx:value="radius" />
+                        <String fx:value="white-bg" />
+                     </styleClass>
+                  </PasswordField>
+                  <TextField fx:id="register_showPassword" layoutX="50.0" layoutY="236.0" prefHeight="30.0" prefWidth="250.0" promptText="Şifre" stylesheets="@../Design/PageDesign.css" visible="false">
+                     <styleClass>
+                        <String fx:value="textfield-1" />
+                        <String fx:value="white-bg" />
+                     </styleClass>
+                  </TextField>
+                  <CheckBox fx:id="register_checkBox" layoutX="50.0" layoutY="275.0" mnemonicParsing="false" text="Şifreyi Göster" />
+                  <Button fx:id="register_singupBtn" layoutX="50.0" layoutY="312.0" mnemonicParsing="false" onAction="#registerAccount" prefHeight="40.0" prefWidth="250.0" stylesheets="@../Design/PageDesign.css" text="Kayıt Ol">
+                     <styleClass>
+                        <String fx:value="btn-1" />
+                        <String fx:value="radius" />
+                     </styleClass>
+                  </Button>
+                  <FontAwesomeIconView fill="#188ba7" glyphName="HOSPITAL_ALT" layoutX="142.0" layoutY="475.0" size="6em" />
+                  <Label layoutX="58.0" layoutY="515.0" text="Bir hesabın var mı?" />
+                  <Hyperlink fx:id="register_loginHere" layoutX="198.0" layoutY="512.0" onAction="#switchForm" text="Giriş Yap" />
+               </children>
+            </AnchorPane>
+         </children>
+      </AnchorPane>
+   </children>
+</StackPane>
