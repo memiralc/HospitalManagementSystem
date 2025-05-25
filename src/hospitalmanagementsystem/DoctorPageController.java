@@ -8,7 +8,6 @@ import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -94,32 +93,109 @@ public class DoctorPageController implements Initializable {
 
     @FXML
     void loginAccount() {
+        if (login_doctorID.getText().isEmpty() || login_password.getText().isEmpty()) {
+            alert.errorMessage("Yanlış Kullanıcı Adı veya Şifre");
+        } else {
+            String sql = "SELECT * FROM doctor WHERE doctor_id = ? AND password = ? AND delete_date IS NULL";
+            connect = Database.connectDB();
 
+            try {
+                if (!login_showPassword.isVisible()) {
+                    if (!login_showPassword.getText().equals(login_password.getText())) {
+                        login_showPassword.setText(login_password.getText());
+                    }
+                } else {
+                    if (!login_showPassword.getText().equals(login_password.getText())) {
+                        login_password.setText(login_showPassword.getText());
+                    }
+                }
+                String checkStatus = "SELECT status FROM doctor WHERE doctor_id = '" + login_doctorID.getText() + "' AND password = '" + login_password.getText() + "'";
+
+                prepare = connect.prepareStatement(checkStatus);
+                result = prepare.executeQuery();
+                if (result.next()) {
+                    prepare = connect.prepareStatement(sql);
+                    prepare.setString(1, login_doctorID.getText());
+                    prepare.setString(2, login_password.getText());
+
+                    result = prepare.executeQuery();
+                    if (result.next()) {
+                        alert.successMessage("Giriş Başarılı");
+                    } else {
+                        alert.errorMessage("Doktor ID/ Şifre Hatalı");
+                    }
+
+                } else {
+                    if (!login_showPassword.isVisible()) {
+                        if (!login_showPassword.getText().equals(login_password.getText())) {
+                            login_showPassword.setText(login_password.getText());
+                        }
+                    } else {
+                        if (!login_showPassword.getText().equals(login_password.getText())) {
+                            login_password.setText(login_showPassword.getText());
+                        }
+                    }
+
+                    alert.errorMessage("Admin onayına ihtiyacınız var!");
+
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @FXML
     void loginShowPassword() {
-
+        if (login_checkBox.isSelected()) {
+            login_showPassword.setText(login_password.getText());
+            login_password.setVisible(false);
+            login_showPassword.setVisible(true);
+        } else {
+            login_password.setText(login_showPassword.getText());
+            login_password.setVisible(true);
+            login_showPassword.setVisible(false);
+        }
     }
 
     @FXML
-    void registerAccount(ActionEvent event) {
-        if (register_fullName.getText().isEmpty() || register_email.getText().isEmpty() || register_doctorID.getText().isEmpty() || register_password.getText().isEmpty()) {
-            alert.errorMessage("Lütfen boş alanları doldurun");
+    void registerAccount() {
+
+        if (register_fullName.getText().isEmpty()
+                || register_email.getText().isEmpty()
+                || register_doctorID.getText().isEmpty()
+                || register_password.getText().isEmpty()) {
+            alert.errorMessage("Lütfen bütün boş alanları doldurun");
         } else {
-            String checkDoctorID = "SELECT * FROM doctor WHERE doctor_id'" + register_doctorID.getText() + "'";
+
+            String checkDoctorID = "SELECT * FROM doctor WHERE doctor_id = '"
+                    + register_doctorID.getText() + "'";
+            connect = Database.connectDB();
 
             try {
-                connect = Database.connectDB();
+
+                if (!register_showPassword.isVisible()) {
+                    if (!register_showPassword.getText().equals(register_password.getText())) {
+                        register_showPassword.setText(register_password.getText());
+                    }
+                } else {
+                    if (!register_showPassword.getText().equals(register_password.getText())) {
+                        register_password.setText(register_showPassword.getText());
+                    }
+                }
+
                 prepare = connect.prepareStatement(checkDoctorID);
                 result = prepare.executeQuery();
 
                 if (result.next()) {
-                    alert.errorMessage(register_doctorID.getText() + " Zaten Mevcut!");
+                    alert.errorMessage(register_doctorID.getText() + " Zaten kullanılıyor");
                 } else if (register_password.getText().length() < 8) {
                     alert.errorMessage("Geçersiz şifre, şifreniz 8 karekterden uzun olmalı!");
                 } else {
-                    String insertData = "INSERT INTO doctor (full_name, email, doctor_id, password, date, status) " + "VALUES(?,?,?,?,?,?)";
+
+                    String insertData = "INSERT INTO doctor (full_name, email, doctor_id, password, date, status) "
+                            + "VALUES(?,?,?,?,?,?)";
 
                     prepare = connect.prepareStatement(insertData);
 
@@ -131,20 +207,64 @@ public class DoctorPageController implements Initializable {
                     prepare.setString(3, register_doctorID.getText());
                     prepare.setString(4, register_password.getText());
                     prepare.setString(5, String.valueOf(sqlDate));
-                    prepare.setString(6, "Confirm");
+                    prepare.setString(6, "Onaylı");
 
                     prepare.executeUpdate();
 
                     alert.successMessage("Kayıt Başarılı!");
+
                 }
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
+
         }
+
     }
 
     @FXML
     void registerShowPassword() {
+        if (register_checkBox.isSelected()) {
+            register_showPassword.setText(register_password.getText());
+            register_showPassword.setVisible(true);
+            register_password.setVisible(false);
+        } else {
+            register_password.setText(register_showPassword.getText());
+            register_showPassword.setVisible(false);
+            register_password.setVisible(true);
+        }
+    }
+
+    public void registerDoctorID() {
+        String doctorID = "DID-";
+        int tempID = 0;
+        String sql = "SELECT MAX(id) FROM doctor";
+
+        connect = Database.connectDB();
+
+        try {
+
+            prepare = connect.prepareStatement(sql);
+            result = prepare.executeQuery();
+
+            if (result.next()) {
+                tempID = result.getInt("MAX(id)");
+            }
+
+            if (tempID == 0) {
+                tempID += 1;
+                doctorID += tempID;
+            } else {
+                doctorID += (tempID + 1);
+            }
+
+            register_doctorID.setText(doctorID);
+            register_doctorID.setDisable(true);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -160,14 +280,14 @@ public class DoctorPageController implements Initializable {
     }
 
     public void SwitchPage() {
-        if (login_user.getSelectionModel().getSelectedItem() == "Kullanıcı Girişi") {
+        if (login_user.getSelectionModel().getSelectedItem() == "Admin Portal") {
 
             try {
 
                 Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
                 Stage stage = new Stage();
 
-                stage.setTitle("Hospital Management System");
+                stage.setTitle("Hastane Yönetim Sistemi");
 
                 stage.setMinWidth(370);
                 stage.setMinHeight(580);
@@ -178,11 +298,28 @@ public class DoctorPageController implements Initializable {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        } else if (login_user.getSelectionModel().getSelectedItem() == "Doktor Girişi") {
+        } else if (login_user.getSelectionModel().getSelectedItem() == "Doktor Portal") {
 
             try {
 
                 Parent root = FXMLLoader.load(getClass().getResource("DoctorPage.fxml"));
+                Stage stage = new Stage();
+
+                stage.setTitle("Hastane Yönetim Sistemi");
+
+                stage.setMinWidth(370);
+                stage.setMinHeight(580);
+
+                stage.setScene(new Scene(root));
+                stage.show();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else if (login_user.getSelectionModel().getSelectedItem() == "Hasta Portal") {
+            try {
+
+                Parent root = FXMLLoader.load(getClass().getResource("PatientPage.fxml"));
                 Stage stage = new Stage();
 
                 stage.setTitle("Hospital Management System");
@@ -192,13 +329,10 @@ public class DoctorPageController implements Initializable {
 
                 stage.setScene(new Scene(root));
                 stage.show();
-                System.out.println("Hata");
 
             } catch (Exception e) {
-                System.out.println("HAta");
                 e.printStackTrace();
             }
-        } else if (login_user.getSelectionModel().getSelectedItem() == "Hasta Girişi") {
         }
         login_user.getScene().getWindow().hide();
 
@@ -219,7 +353,8 @@ public class DoctorPageController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        registerDoctorID();
+        userList();
     }
 
 }
