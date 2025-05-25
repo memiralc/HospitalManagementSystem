@@ -26,13 +26,13 @@
                      </font>
                   </Label>
                   <Label layoutX="108.0" layoutY="121.0" text="Admin Kullanımı için giriş" />
-                  <TextField fx:id="login_username" layoutX="50.0" layoutY="152.0" prefHeight="30.0" prefWidth="250.0" promptText="Kullanıcı Adı" stylesheets="@../Design/PageDesign.css">
+                  <TextField fx:id="login_username" layoutX="50.0" layoutY="152.0" onAction="#loginAccount" prefHeight="30.0" prefWidth="250.0" promptText="Kullanıcı Adı" stylesheets="@../Design/PageDesign.css">
                      <styleClass>
                         <String fx:value="textfield-1" />
                         <String fx:value="radius" />
                         <String fx:value="white-bg" />
                      </styleClass></TextField>
-                  <PasswordField fx:id="login_password" layoutX="50.0" layoutY="189.0" prefHeight="30.0" prefWidth="250.0" promptText="Şifre">
+                  <PasswordField fx:id="login_password" layoutX="50.0" layoutY="189.0" onAction="#loginAccount" prefHeight="30.0" prefWidth="250.0" promptText="Şifre">
                      <styleClass>
                         <String fx:value="textfield-1" />
                         <String fx:value="radius" />
@@ -50,7 +50,11 @@
                         <String fx:value="radius" />
                      </styleClass></Button>
                   <FontAwesomeIconView fill="#188ba7" glyphName="HOSPITAL_ALT" layoutX="147.0" layoutY="433.0" size="6em" />
-                  <ComboBox fx:id="login_user" layoutX="100.0" layoutY="463.0" onAction="#SwitchPage" prefHeight="30.0" prefWidth="150.0" promptText="kullanıcı Seç" styleClass="white-bg" stylesheets="@../Design/PageDesign.css" />
+                  <ComboBox fx:id="login_user" layoutX="100.0" layoutY="463.0" onAction="#SwitchPage" prefHeight="30.0" prefWidth="150.0" promptText="kullanıcı Seç" stylesheets="@../Design/PageDesign.css">
+                     <styleClass>
+                        <String fx:value="white-bg" />
+                        <String fx:value="textfield-1" />
+                     </styleClass></ComboBox>
                   <Label layoutX="64.0" layoutY="515.0" text="Hesabınız yok mu?" />
                   <Hyperlink fx:id="login_registerHere" layoutX="199.0" layoutY="512.0" onAction="#switchForm" text="Kayıt Ol" />
                </children>

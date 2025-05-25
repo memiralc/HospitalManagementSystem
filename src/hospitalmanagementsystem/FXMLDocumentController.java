@@ -81,7 +81,7 @@ public class FXMLDocumentController implements Initializable {
 
         if (login_username.getText().isEmpty()
                 || login_password.getText().isEmpty()) {
-            alert.errorMessage("Incorrect Username/Password");
+            alert.errorMessage("eksik Kullanıcı adı veya şifre");
         } else {
 
             String sql = "SELECT * FROM admin WHERE username = ? AND password = ?";
@@ -106,14 +106,21 @@ public class FXMLDocumentController implements Initializable {
                 result = prepare.executeQuery();
 
                 if (result.next()) {
-
-                    alert.successMessage("Login Successfully!");
-
-                    // TO HIDE YOUR ADMIN PAGE (LOGIN FORM)
+                    Data.admin_username = login_username.getText();
+                    
+                    alert.successMessage("Giriş Başarılı!");                                       
                     login_loginBtn.getScene().getWindow().hide();
-                } else {
-                    // IF WRONG USERNAME OR PASSWORD
-                    alert.errorMessage("Incorrect Username/Password");
+                    
+                    Parent root = FXMLLoader.load(getClass().getResource("AdminMainForm.fxml"));
+                    Stage stage = new Stage();
+                    
+                    stage.setTitle("Hastane Yönetim Sistemi | Admin Portal");
+                    stage.setScene(new Scene(root));
+                    stage.show();
+                    
+                    login_loginBtn.getScene().getWindow().hide();
+                } else {                 
+                    alert.errorMessage("Hatalı Kullanıcı adı veya şifre");
                 }
 
             } catch (Exception e) {
@@ -226,7 +233,7 @@ public class FXMLDocumentController implements Initializable {
     }
 
     public void SwitchPage() {
-        if (login_user.getSelectionModel().getSelectedItem() == "Kullanıcı Girişi") {
+        if (login_user.getSelectionModel().getSelectedItem() == "Admin Portal") {
 
             try {
 
@@ -244,7 +251,7 @@ public class FXMLDocumentController implements Initializable {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        } else if (login_user.getSelectionModel().getSelectedItem() == "Doktor Girişi") {
+        } else if (login_user.getSelectionModel().getSelectedItem() == "Doktor Portal") {
 
             try {
 
@@ -263,8 +270,23 @@ public class FXMLDocumentController implements Initializable {
                 e.printStackTrace();
             }
 
-        } else if (login_user.getSelectionModel().getSelectedItem() == "Hasta Girişi") {
+        } else if (login_user.getSelectionModel().getSelectedItem() == "Hasta Portal") {
+            try {
 
+                Parent root = FXMLLoader.load(getClass().getResource("PatientPage.fxml"));
+                Stage stage = new Stage();
+
+                stage.setTitle("Hospital Management System");
+
+                stage.setMinWidth(370);
+                stage.setMinHeight(580);
+
+                stage.setScene(new Scene(root));
+                stage.show();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
         login_user.getScene().getWindow().hide();
