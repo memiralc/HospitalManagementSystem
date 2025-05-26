@@ -11,4 +11,10 @@ package hospitalmanagementsystem;
 public class Data {
     public static String admin_username;
     public static Integer admin_id;
+    
+    public static String doctor_id;
+    public static String doctor_name;
+    
+    public static String[] gender = {"Erkek", "Kadın", "Diğer"};
+    public static String [] status ={"Aktif", "Aktif Değil", "Onaylı"};
 }
