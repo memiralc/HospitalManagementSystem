@@ -121,6 +121,16 @@ public class DoctorPageController implements Initializable {
                     result = prepare.executeQuery();
                     if (result.next()) {
                         alert.successMessage("Giriş Başarılı");
+                        Data.doctor_id = result.getString("doctor_id");
+                        Data.doctor_name = result.getString("full_name");
+                        
+                        Parent root = FXMLLoader.load(getClass().getResource("DoctorMainForm.fxml"));
+                        Stage stage = new Stage();
+                        
+                        stage.setTitle("Hastane Yönetim Sistemi | Doktor Panel");
+                        stage.setScene(new Scene(root));
+                        stage.show();
+                        login_loginBtn.getScene().getWindow().hide();
                     } else {
                         alert.errorMessage("Doktor ID/ Şifre Hatalı");
                     }
